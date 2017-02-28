@@ -18,7 +18,7 @@ class StreamableApi:
     """
     streamable.com API wrapper.
     """
-    authorization = None
+    authentication = Authentication()
 
     def __init__(self, username=None, password=None):
         """
@@ -29,7 +29,7 @@ class StreamableApi:
             username: streamable.com username
             password: streamable.com password
         """
-        self.authorization = Authorization(username, password)
+        self.authentication = Authentication(username, password)
 
     def get_info(self, video_id):
         """
@@ -64,8 +64,8 @@ class StreamableApi:
         return resp.json()
 
     def _api_request(self, url, method, data=None, files=None):
-        auth = self.authorization.get_auth() \
-            if self.authorization.has_auth() else None
+        auth = self.authentication.get_auth() \
+            if self.authentication.has_auth() else None
         resp = method(url=url,
                       data=data if data else None,
                       files=files if files else None,
@@ -80,9 +80,9 @@ class StreamableApi:
         raise RuntimeError(resp.text)
 
 
-class Authorization:
+class Authentication:
     """
-    Internal authorization info class.
+    Internal authentication info class.
     """
     _username = None
     _password = None
@@ -97,19 +97,19 @@ class Authorization:
         """
         if not username and password or username and not password:
             raise StreamableApiUserException(
-                "API with authorization can only be used with both username"
+                "API with authentication can only be used with both username"
                 "and password.")
         self._username = username
         self._password = password
 
     def get_auth(self):
         """
-        Return authorization tuple.
+        Return authentication tuple.
         """
         return self._username, self._password
 
     def has_auth(self):
         """
-        Returns true if authorization info is available.
+        Returns true if authentication info is available.
         """
         return self._username and self._password
