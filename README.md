@@ -4,11 +4,13 @@ streamable.com API wrapper for Python 2.7+.
 **NOTE:** Work in progress, feature requests and bug reports welcome.
 
 ## Installation
-Currently only available on github. When cloned, run 
+The package is available on [Python Package Index](https://pypi.python.org/pypi/pystreamable).
 
-`pip install -r requirements.pip`
+To install use pip (or pip3, if you're using python3):
 
-to install dependecies (currently just `requests`).
+```
+pip install pystreamable
+```
 
 ## Usage
 ### Creating an instance of StreamableApi
