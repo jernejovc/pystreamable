@@ -20,10 +20,3 @@ class StreamableApiClientException(StreamableApiException):
     Streamable API client exception.
     """
     pass
-
-
-class StreamableApiUserException(StreamableApiException):
-    """
-    Exceptions raised by invalid use of this package.
-    """
-    pass

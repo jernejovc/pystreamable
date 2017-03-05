@@ -1,7 +1,7 @@
 from __future__ import print_function
 from __future__ import absolute_import
 
-from .exceptions import StreamableApiUserException
+from .exceptions import StreamableApiException
 
 
 class Authentication:
@@ -15,12 +15,11 @@ class Authentication:
         """
         Constructor, either both username and password are provided or neither
         is. If only one is present an exception is thrown
-        Args:
-            username: streamable.com username
-            password: streamable.com password
+        :param username: streamable.com username
+        :param password: streamable.com password
         """
         if not username and password or username and not password:
-            raise StreamableApiUserException(
+            raise StreamableApiException(
                 "API with authentication can only be used with both username"
                 "and password.")
         self._username = username

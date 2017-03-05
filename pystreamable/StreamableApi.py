@@ -12,6 +12,8 @@ API_ROOT = 'https://api.streamable.com'
 UPLOAD_URL = API_ROOT + '/upload'
 RETRIEVE_URL = API_ROOT + '/videos/%s'
 IMPORT_URL = API_ROOT + '/import'
+RETRIEVE_USER_URL = API_ROOT + '/users/%s'
+AUTH_USER_URL = API_ROOT + '/me'
 
 
 class StreamableApi:
@@ -25,9 +27,8 @@ class StreamableApi:
         Create a new instance of the API.
         If you provide username and password the uploads will be stored in your
         account.
-        Args:
-            username: streamable.com username
-            password: streamable.com password
+        :param username: streamable.com username
+        :param password: streamable.com password
         """
         self.authentication = Authentication(username, password)
 
@@ -48,25 +49,58 @@ class StreamableApi:
         """
         Upload a video to streamable.com. Works with absolute and relative
         paths.
-        Args:
-            filename: Path to video to be uploaded
-            title: Optional title for the video, if not present streamable uses
-                   filename as title
-
-        Returns:
-            JSON with uploaded video data.
+        :param filename: Path to video to be uploaded
+        :param title: Optional title for the video, if not present streamable
+                      uses filename as title
+        :return: JSON with uploaded video data.
         """
         data = None
-        files = {'file': open(filename, 'rb')}
-        if title:
-            data = {'title': title}
-        resp = self._api_request(UPLOAD_URL, requests.post, data, files)
+        with open(filename, 'rb') as infile:
+            files = {'file': infile}
+            if title:
+                data = {'title': title}
+            resp = self._api_request(UPLOAD_URL,
+                                     requests.post,
+                                     data=data,
+                                     files=files)
+            return resp.json()
+
+    def retrieve_user(self, username):
+        """
+        Retrieves user info.
+        :param username: username for which to get user info
+        :return: JSON with user info
+        """
+        url = RETRIEVE_USER_URL % username
+        resp = self._api_request(url, requests.get)
         return resp.json()
 
-    def _api_request(self, url, method, data=None, files=None):
+    def auth_user_info(self):
+        """
+        Get authenticated user info.
+        :return: JSON with info of authenticated user.
+        """
+        resp = self._api_request(AUTH_USER_URL, requests.get)
+        return resp.json()
+
+    def import_video(self, url, title=None):
+        """
+        Imports a video from video hosted on external site.
+        :param url: URL to video file or webpage containing a video
+        :param title: Optional title of uploaded video
+        :return: JSON with uploaded video data
+        """
+        payload = {'url': url}
+        if title:
+            payload['title'] = title
+        resp = self._api_request(IMPORT_URL, requests.get, payload=payload)
+        return resp.json()
+
+    def _api_request(self, url, method, payload=None, data=None, files=None):
         auth = self.authentication.get_auth() \
             if self.authentication.has_auth() else None
         resp = method(url=url,
+                      payload=payload,
                       data=data if data else None,
                       files=files if files else None,
                       auth=auth)
