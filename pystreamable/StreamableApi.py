@@ -7,6 +7,12 @@ from .exceptions import (StreamableApiClientException,
                          StreamableApiServerException)
 from .utils import Authentication
 
+__author__ = 'Matej Repinc'
+__email__ = 'mrepinc@gmail.com'
+__version__ = '1.0.0'
+__license__ = 'MIT'
+
+
 STREAMABLE_URL = 'https://streamable.com'
 API_ROOT = 'https://api.streamable.com'
 UPLOAD_URL = API_ROOT + '/upload'
