@@ -100,7 +100,7 @@ class StreamableApi:
         auth = self.authentication.get_auth() \
             if self.authentication.has_auth() else None
         resp = method(url=url,
-                      payload=payload,
+                      params=payload,
                       data=data if data else None,
                       files=files if files else None,
                       auth=auth)
