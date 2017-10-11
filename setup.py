@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="pystreamable",
-    version="1.0.0",
+    version="1.0.1",
     author="Matej Repinc",
     author_email="mrepinc@gmail.com",
     description="streamable.com API wrapper",

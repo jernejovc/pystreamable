@@ -9,7 +9,7 @@ from .utils import Authentication
 
 __author__ = 'Matej Repinc'
 __email__ = 'mrepinc@gmail.com'
-__version__ = '1.0.0'
+__version__ = '1.0.1'
 __license__ = 'MIT'
 
 
@@ -20,6 +20,7 @@ RETRIEVE_URL = API_ROOT + '/videos/%s'
 IMPORT_URL = API_ROOT + '/import'
 RETRIEVE_USER_URL = API_ROOT + '/users/%s'
 AUTH_USER_URL = API_ROOT + '/me'
+USER_AGENT = {'user-agent': 'pystreamable/%s (streamable.com python wrapper)' % __version__ }
 
 
 class StreamableApi:
@@ -109,7 +110,8 @@ class StreamableApi:
                       params=payload,
                       data=data if data else None,
                       files=files if files else None,
-                      auth=auth)
+                      auth=auth,
+                      headers=USER_AGENT)
         if 200 >= resp.status_code < 300:
             return resp
         if 400 >= resp.status_code < 500:
