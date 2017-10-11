@@ -20,7 +20,7 @@ RETRIEVE_URL = API_ROOT + '/videos/%s'
 IMPORT_URL = API_ROOT + '/import'
 RETRIEVE_USER_URL = API_ROOT + '/users/%s'
 AUTH_USER_URL = API_ROOT + '/me'
-USER_AGENT = {'user-agent': 'pystreamable/%s (streamable.com python wrapper)' % __version__ }
+USER_AGENT = {'user-agent': 'pystreamable/%s (api.streamable.com python wrapper)' % __version__ }
 
 
 class StreamableApi:
